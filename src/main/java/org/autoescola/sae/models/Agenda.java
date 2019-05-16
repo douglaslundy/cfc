@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,6 +22,12 @@ public class Agenda {
 	@DateTimeFormat
 	private Calendar start;
 	private Calendar end;
+	
+	@OneToOne
+	private Empresa empresa;
+	
+	@OneToOne()
+	private Instrutor instrutor;
 	
 	public int getId() {
 		return id;
@@ -52,11 +59,23 @@ public class Agenda {
 	public void setEnd(Calendar end) {
 		this.end = end;
 	}
+	public Instrutor getInstrutor() {
+		return instrutor;
+	}
+	public void setInstrutor(Instrutor instrutor) {
+		this.instrutor = instrutor;
+	}
 	@Override
 	public String toString() {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return "{id:" + id + ", title:" +'"' +title +'"' + ", color:" +'"' + color +'"' + ", start:" +'"' + df.format(start.getTime()) +'"' + ", end:" +'"' + df.format(end.getTime())+'"' +"}";
+		return "{id:" + id + ", title:" +'"' +title +'"' + ", color:" +'"' + color +'"' + ", start:" +'"' + df.format(start.getTime()) 
+			+'"' + ", end:" +'"' + df.format(end.getTime())+'"' +"}";
 	}
-	
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}	
 	
 }

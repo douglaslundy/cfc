@@ -45,18 +45,16 @@
 	rel="stylesheet">
 <!-- bootstrap-daterangepicker -->
 <link
-	href="${contextPath}resources/vendors/bootstrap-daterangepicker/daterangepicker.css"
+	href="${contextPath}resources/vendors/bootstrap-datetimepicker/datetimepicker.min.css"
 	rel="stylesheet">
 
 <!-- FullCalendar -->
     <link href="${contextPath}resources/vendors/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet">
-    <link href="${contextPath}resources/vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">
-    
+    <link href="${contextPath}resources/vendors/fullcalendar/dist/fullcalendar.print.css" rel="stylesheet" media="print">    
 	<script src="${contextPath}resources/vendors/jquery/dist/jquery-callendar.min.js"></script>
 
 <!-- Custom Theme Style -->
-<link href="${contextPath}resources/build/css/custom.min.css"
-	rel="stylesheet">
+<link href="${contextPath}resources/build/css/custom.min.css" rel="stylesheet">
 </head>
 
 <%@ include file="/WEB-INF/views/cabecalho.jsp"%>

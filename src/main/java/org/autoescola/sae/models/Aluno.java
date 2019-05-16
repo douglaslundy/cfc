@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -28,6 +30,9 @@ public class Aluno {
 	private String identidade;
 	private String fotoPath;
 	private String telefone;
+	
+	@OneToOne
+	private Empresa empresa;
 		
 	public int getId() {
 		return id;
@@ -103,6 +108,12 @@ public class Aluno {
 	}
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 	@Override
 	public String toString() {

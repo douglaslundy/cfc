@@ -31,5 +31,5 @@
 				</tr>
 			</c:forEach>			
 		</table>
-		<a href="${contextPath}/autoescola/movimentacao/form">Cadastrar Movimentação</a>
+		<a href="${contextPath}/autoescola/movimentacao/form" class="btn btn-primary">Nova Movimentação</a>
 </tags:pageTemplate>

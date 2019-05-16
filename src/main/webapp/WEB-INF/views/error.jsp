@@ -4,7 +4,7 @@
 <tags:pageTemplate titulo="Produto não encontrado">
 
     <section id="index-section" class="container middle">
-        <h2>Erro genérico acontecedo!!!</h2>
+        <h2>Ops! parece que houve um erro.</h2>
     </section>
 
 </tags:pageTemplate>

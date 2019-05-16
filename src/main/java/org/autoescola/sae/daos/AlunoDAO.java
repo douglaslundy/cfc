@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.autoescola.sae.models.Aluno;
+import org.autoescola.sae.models.Empresa;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,12 +21,12 @@ public class AlunoDAO {
 		manager.persist(aluno);
 	}
 
-	public List<Aluno> listar() {		
-		return manager.createQuery("select a from Aluno a", Aluno.class).getResultList();
+	public List<Aluno> listar(Empresa empresa) {		
+		return manager.createQuery("select a from Aluno a where a.empresa = :empresa", Aluno.class).setParameter("empresa", empresa).getResultList();
 	}
 
-	public Aluno find(Integer id) {
-        return manager.createQuery("select distinct(p) from Aluno p where p.id = :id", Aluno.class).setParameter("id", id).getSingleResult();
+	public Aluno find(Integer id, Empresa empresa) {
+        return manager.createQuery("select distinct(a) from Aluno p where a.id = :id and a.empresa = :empresa", Aluno.class).setParameter("id", id).setParameter("empresa", empresa).getSingleResult();
 	}
 
 }

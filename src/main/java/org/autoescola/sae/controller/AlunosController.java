@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.autoescola.sae.daos.AlunoDAO;
+import org.autoescola.sae.daos.UsuarioDAO;
 import org.autoescola.sae.infra.FileSaver;
 import org.autoescola.sae.models.Aluno;
 import org.autoescola.sae.validation.AlunoValidation;
@@ -31,6 +32,9 @@ public class AlunosController {
 	@Autowired
 	private FileSaver fileSaver;
 	
+	@Autowired
+	private UsuarioDAO usuarioDAO;
+	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.addValidators(new AlunoValidation());
@@ -41,7 +45,7 @@ public class AlunosController {
 		return new ModelAndView("alunos/form");
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST, name="gravar_aluno")
 	public ModelAndView grava(MultipartFile foto, @Valid Aluno aluno, BindingResult result, RedirectAttributes redirectAttributes) {
 
 		if(result.hasErrors()) {
@@ -52,15 +56,17 @@ public class AlunosController {
 		String path = fileSaver.write("resources/imagens", foto);
 		aluno.setFotoPath(path);
 		
+		aluno.setEmpresa(usuarioDAO.pegaUsuarioLogado().getEmpresa());
+		
 		alunoDAO.gravar(aluno);
-		redirectAttributes.addFlashAttribute("mensagem", "Produto Cadastrado com Sucesso!");
+		redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Aluno Cadastrado com Sucesso!</div>");
 		return new ModelAndView("redirect:alunos");
 	}
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView alunos() {
-		List<Aluno> alunos = alunoDAO.listar();
+		List<Aluno> alunos = alunoDAO.listar(usuarioDAO.pegaUsuarioLogado().getEmpresa());
 		ModelAndView modelAndView = new ModelAndView("alunos/alunos");
 		modelAndView.addObject("alunos", alunos);
 		return modelAndView;
@@ -68,7 +74,7 @@ public class AlunosController {
 	
 	@RequestMapping("/{id}")
 	public Aluno detalheJSON(@PathVariable("id") Integer id){
-	    return alunoDAO.find(id);
+	    return alunoDAO.find(id, usuarioDAO.pegaUsuarioLogado().getEmpresa());
 	}
 	
 	@ExceptionHandler(Exception.class)

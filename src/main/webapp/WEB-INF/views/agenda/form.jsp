@@ -8,6 +8,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 
 <tags:pageTemplate titulo="Cadastro de Alunos">
+<link href="${contextPath}../resources/vendors/clockpicker/bootstrap-clockpicker.min.css" rel="stylesheet">
 		
 		<script>
 			$(document).ready(function() {
@@ -35,8 +36,7 @@
 					selectable: true,
 					selectHelper: true,
 					select: function(start, end){
-						$('#cadastrar #start').val(moment(start).format('DD/MM/YYYY HH:mm:ss'));
-						$('#cadastrar #end').val(moment(end).format('DD/MM/YYYY HH:mm:ss'));
+						$('#cadastrar #start').val(moment(start).format('DD/MM/YYYY'));
 						$('#cadastrar').modal('show');						
 					},
 					events: ${eventos.toString()}
@@ -48,7 +48,7 @@
 			function DataHora(evento, objeto){
 				var keypress=(window.event)?event.keyCode:evento.which;
 				campo = eval (objeto);
-				if (campo.value == '00/00/0000 00:00:00'){
+				if (campo.value == '00/00/0000'){
 					campo.value=""
 				}
 			 
@@ -76,9 +76,32 @@
 					event.returnValue = false;
 				}
 			}
-		</script>
+			
+            $(function () {
+                $('#datetimepicker1').datetimepicker({format :"DD/MM/YYYY"});
+            });
+        </script>
 	</head>
 	
+	<div>${mensagem}</div>
+	
+	<div class="panel panel-default">
+	<div class="panel-body">
+	<div class="form-group">
+
+	<label for="inputEmail3" class="col-sm-1 control-label">Instrutor</label>
+	<div class="col-sm-9">
+		<form>
+		<input id="instrutor" class="form-control" type="text" value="${instrutor.nome}" autocomplete="off" required="required" readonly="readonly"/>
+		</form>										
+	</div>
+	<div class="col-sm-1">
+			<a href="${s:mvcUrl('define_instrutor').build()}" class="btn btn-primary">Trocar Instrutor</a>
+		</div>	
+	</div>	
+	</div>	
+	</div>	
+							
 	<div id='calendar'></div>
 	
 		<div class="modal fade" id="visualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
@@ -86,7 +109,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title text-center">Dados do Evento</h4>
+						<h4 class="modal-title text-center">Dados da Aula</h4>
 					</div>
 					<div class="modal-body">
 						<dl class="dl-horizontal">
@@ -109,55 +132,121 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title text-center">Cadastrar Evento</h4>
+						<h4 class="modal-title text-center">Agendar Aula</h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" method="POST" action="proc_cad_evento.php">
+						<form:form class="form-horizontal" method="POST" action="${s:mvcUrl('gravar_aula').build()}" commandName="agenda" >
+							<input name="instrutorId" type="hidden" value="${instrutor.id}" required="required"/>
+								
 							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Titulo</label>
+								<label for="inputEmail3" class="col-sm-2 control-label">Aluno</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" name="title" placeholder="Titulo do Evento">
+								
+								<input name="aluno" id="aluno" class="form-control" type="text" list="alunos" autocomplete="off" required="required"/>
+								<datalist id="alunos">
+										<c:forEach var="listValueAlunos" items="${alunos}">
+											<option value="${listValueAlunos.nome} -  ${listValueAlunos.cpf}">
+									    </c:forEach>
+								</datalist>		
+															
+								</div>
+							</div>						
+											
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">Data</label>
+								<div class="col-sm-10">
+								 <div class='input-group date' id='datetimepicker1'>
+									<input type="text" class="form-control" name="start" id="start" readonly="readonly">
+									<span class="input-group-addon">
+								          <span class="glyphicon glyphicon-calendar"></span>
+								    </span>
+								    </div>
 								</div>
 							</div>
+							
+							
 							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Cor</label>
+								<label for="inputEmail3" class="col-sm-2 control-label">Hora de Início</label>
 								<div class="col-sm-10">
-									<select name="color" class="form-control" id="color">
-										<option value="">Selecione</option>			
-										<option style="color:#FFD700;" value="#FFD700">Amarelo</option>
-										<option style="color:#0071c5;" value="#0071c5">Azul Turquesa</option>
-										<option style="color:#FF4500;" value="#FF4500">Laranja</option>
-										<option style="color:#8B4513;" value="#8B4513">Marrom</option>	
-										<option style="color:#1C1C1C;" value="#1C1C1C">Preto</option>
-										<option style="color:#436EEE;" value="#436EEE">Royal Blue</option>
-										<option style="color:#A020F0;" value="#A020F0">Roxo</option>
-										<option style="color:#40E0D0;" value="#40E0D0">Turquesa</option>										
-										<option style="color:#228B22;" value="#228B22">Verde</option>
-										<option style="color:#8B0000;" value="#8B0000">Vermelho</option>
-									</select>
+								 <div class='input-group date' id='datetimepicker1'>
+									<input autocomplete="off" class="form-control" id="single-input" name="horarioInicio" value="" placeholder="Horario de inicio da aula">	
+									<span class="input-group-addon">
+								          <span class="glyphicon glyphicon-time"></span>
+								    </span>
+								    </div>
 								</div>
 							</div>
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Data Inicial</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="start" id="start" onKeyPress="DataHora(event, this)">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="inputEmail3" class="col-sm-2 control-label">Data Final</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" name="end" id="end" onKeyPress="DataHora(event, this)">
-								</div>
-							</div>
-							<div class="form-group">
+							
+							<div class="form-group align-right">
 								<div class="col-sm-offset-2 col-sm-10">
-									<button type="submit" class="btn btn-success">Cadastrar</button>
+									<button type="submit" class="btn btn-primary">Cadastrar</button>
 								</div>
 							</div>
-						</form>
+						</form:form>
 				</div>
 		</div>
 	</div>
-						</div>
-						
+</div>
+
+<script src="${contextPath}../resources/vendors/clockpicker/bootstrap-clockpicker.min.js"></script>
+
+<script type="text/javascript">
+$('.clockpicker').clockpicker()
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+var input = $('#single-input').clockpicker({
+	placement: 'bottom',
+	align: 'left',
+	autoclose: true,
+	'default': 'now'
+});
+
+$('.clockpicker-with-callbacks').clockpicker({
+		donetext: 'Done',
+		init: function() { 
+			console.log("colorpicker initiated");
+		},
+		beforeShow: function() {
+			console.log("before show");
+		},
+		afterShow: function() {
+			console.log("after show");
+		},
+		beforeHide: function() {
+			console.log("before hide");
+		},
+		afterHide: function() {
+			console.log("after hide");
+		},
+		beforeHourSelect: function() {
+			console.log("before hour selected");
+		},
+		afterHourSelect: function() {
+			console.log("after hour selected");
+		},
+		beforeDone: function() {
+			console.log("before done");
+		},
+		afterDone: function() {
+			console.log("after done");
+		}
+	})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+	// Have to stop propagation here
+	e.stopPropagation();
+	input.clockpicker('show')
+			.clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+	$('input').prop('readOnly', true);
+}
+
+</script>
+				
 </tags:pageTemplate>

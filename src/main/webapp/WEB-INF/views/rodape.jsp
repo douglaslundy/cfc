@@ -32,7 +32,7 @@
     <script src="${contextPath}resources/vendors/iCheck/icheck.min.js"></script>
     <!-- bootstrap-daterangepicker -->
     <script src="${contextPath}resources/vendors/moment/min/moment.min.js"></script>
-    <script src="${contextPath}resources/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="${contextPath}resources/vendors/bootstrap-datetimepicker/datetimepicker.min.js"></script>
     <script src="${contextPath}resources/vendors/fullcalendar/dist/fullcalendar.min.js"></script>
     <!-- bootstrap-wysiwyg -->
     <script src="${contextPath}resources/vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
@@ -54,6 +54,5 @@
     <script src="${contextPath}resources/vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="${contextPath}resources/build/js/custom.min.js"></script>
-  
   </body>
 </html>

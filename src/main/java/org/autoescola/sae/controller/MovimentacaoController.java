@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.autoescola.sae.daos.MovimentacaoDAO;
+import org.autoescola.sae.daos.UsuarioDAO;
 import org.autoescola.sae.models.Movimentacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class MovimentacaoController {
 	
 	@Autowired
 	private MovimentacaoDAO movimentacaoDAO;
+	
+	@Autowired
+	private UsuarioDAO usuarioDAO;
 		
 	@RequestMapping("/form")
 	public ModelAndView form(Movimentacao movimentacao) {
@@ -35,6 +39,9 @@ public class MovimentacaoController {
 		movimentacao.setValor(movimentacao.getTipo().equals(new String("saida")) ? 
 				movimentacao.getValor().multiply(new BigDecimal(-1)) : movimentacao.getValor());
 		
+		movimentacao.setEmpresa(usuarioDAO.pegaUsuarioLogado().getEmpresa());
+		
+		
 		movimentacaoDAO.gravar(movimentacao);
 		redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Movimentação registrada Sucesso!</div>");
 		return new ModelAndView("redirect:movimentacao");
@@ -43,8 +50,8 @@ public class MovimentacaoController {
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView movimentacao() {
-		List<Movimentacao> movimentacao = movimentacaoDAO.listar();
-		BigDecimal total = movimentacaoDAO.pegaTotal();
+		List<Movimentacao> movimentacao = movimentacaoDAO.listar(usuarioDAO.pegaUsuarioLogado().getEmpresa());
+		BigDecimal total = movimentacaoDAO.pegaTotal(usuarioDAO.pegaUsuarioLogado().getEmpresa());
 		ModelAndView modelAndView = new ModelAndView("movimentacao/movimentacao");
 		modelAndView.addObject("movimentacao", movimentacao);
 		modelAndView.addObject("total", total);
@@ -53,7 +60,7 @@ public class MovimentacaoController {
 	
 	@RequestMapping("/{id}")
 	public Movimentacao detalheJSON(@PathVariable("id") Integer id){
-	    return movimentacaoDAO.find(id);
+	    return movimentacaoDAO.find(id, usuarioDAO.pegaUsuarioLogado().getEmpresa());
 	}
 	
 	@ExceptionHandler(Exception.class)

@@ -33,6 +33,6 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="${contextPath}/autoescola/alunos/form">Cadastrar Aluno</a>
+		<a href="${contextPath}/autoescola/alunos/form"  class="btn btn-primary">Novo Aluno</a>
 
 </tags:pageTemplate>

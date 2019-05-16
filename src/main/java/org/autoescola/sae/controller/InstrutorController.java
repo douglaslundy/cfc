@@ -5,8 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.autoescola.sae.daos.InstrutorDAO;
+import org.autoescola.sae.daos.UsuarioDAO;
 import org.autoescola.sae.infra.FileSaver;
-import org.autoescola.sae.models.Aluno;
 import org.autoescola.sae.models.Instrutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +26,9 @@ public class InstrutorController {
 	private InstrutorDAO instrutorDAO;
 	
 	@Autowired
+	private UsuarioDAO usuarioDAO;
+	
+	@Autowired
 	private FileSaver fileSaver;
 	
 	@RequestMapping("/form")
@@ -43,14 +46,16 @@ public class InstrutorController {
 		String path = fileSaver.write("resources/imagens", foto);
 		instrutor.setFotoPath(path);
 		
+		instrutor.setEmpresa(usuarioDAO.pegaUsuarioLogado().getEmpresa());
+		
 		instrutorDAO.gravar(instrutor);
-		redirectAttributes.addFlashAttribute("mensagem", "Instrutor Cadastrado com Sucesso!");
+		redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Instrutor Cadastrado com Sucesso!</div>");
 		return new ModelAndView("redirect:instrutor");
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView instrutor() {
-		List<Instrutor> instrutores = instrutorDAO.listar();
+		List<Instrutor> instrutores = instrutorDAO.listar(usuarioDAO.pegaUsuarioLogado().getEmpresa());
 		ModelAndView modelAndView = new ModelAndView("instrutor/instrutores");
 		modelAndView.addObject("instrutores", instrutores);
 		return modelAndView;

@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Veiculo {
@@ -21,6 +22,9 @@ public class Veiculo {
 	private String placa;
 	private int kmInicial;
 	private int kmAtual;
+	
+	@OneToOne
+	private Empresa empresa;
 
 	private String ano;
 
@@ -110,6 +114,14 @@ public class Veiculo {
 
 	public void setAno(String ano) {
 		this.ano = ano;
+	}
+
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 }

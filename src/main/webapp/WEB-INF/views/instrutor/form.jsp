@@ -27,7 +27,7 @@
 				class="required">*</span></label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="nome" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="nome" />
 			</div>
 		</div>
@@ -37,7 +37,7 @@
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="sobrenome" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="sobrenome" />
 			</div>
 		</div>
@@ -66,7 +66,7 @@
 				class="required">*</span></label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="cpf" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="cpf" />
 			</div>
 		</div>
@@ -75,7 +75,7 @@
 				class="required">*</span></label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="identidade" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="identidade" />
 			</div>
 		</div>
@@ -85,7 +85,7 @@
 				class="required">*</span></label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="cnh" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="cnh" />
 			</div>
 		</div>
@@ -105,7 +105,7 @@
 				class="required">*</span></label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="credencial" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="credencial" />
 			</div>
 		</div>

@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ExceptionHandlerController {
     @ExceptionHandler(Exception.class)
     public ModelAndView trataExceptionGenerica(Exception exception){
-        System.out.println("Erro genérico acontecendo");
+        System.out.println("Ops! parece que houve um erro.");
         exception.printStackTrace();
 
         ModelAndView modelAndView = new ModelAndView("error");

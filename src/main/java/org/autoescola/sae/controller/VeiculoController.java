@@ -2,6 +2,7 @@ package org.autoescola.sae.controller;
 
 import java.util.List;
 
+import org.autoescola.sae.daos.UsuarioDAO;
 import org.autoescola.sae.daos.VeiculoDAO;
 import org.autoescola.sae.models.Veiculo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class VeiculoController {
 	
 	@Autowired
-	private VeiculoDAO veiculoDAO;
+	private VeiculoDAO veiculoDAO;	
+
+	@Autowired
+	private UsuarioDAO usuarioDAO;
 
 	@RequestMapping("/form")
 	public ModelAndView form(Veiculo veiculo) {
@@ -27,16 +31,17 @@ public class VeiculoController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView grava(Veiculo veiculo, BindingResult result, RedirectAttributes redirectAttributes) {		
+	public ModelAndView grava(Veiculo veiculo, BindingResult result, RedirectAttributes redirectAttributes) {
+		veiculo.setEmpresa(usuarioDAO.pegaUsuarioLogado().getEmpresa());
 		veiculoDAO.gravar(veiculo);
-		redirectAttributes.addFlashAttribute("mensagem", "Veiculo Cadastrado com Sucesso!");
+		redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Veiculo Cadastrado com Sucesso!</div>");
 		return new ModelAndView("redirect:veiculos");
 	}
 	
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView veiculos() {
-		List<Veiculo> veiculos = veiculoDAO.listar();
+		List<Veiculo> veiculos = veiculoDAO.listar(usuarioDAO.pegaUsuarioLogado().getEmpresa());
 		ModelAndView modelAndView = new ModelAndView("veiculos/veiculos");
 		modelAndView.addObject("veiculos", veiculos);
 		return modelAndView;
@@ -44,7 +49,7 @@ public class VeiculoController {
 	
 	@RequestMapping("/{id}")
 	public Veiculo detalheJSON(@PathVariable("id") Integer id){
-	    return veiculoDAO.find(id);
+	    return veiculoDAO.find(id, usuarioDAO.pegaUsuarioLogado().getEmpresa());
 	}
 	
 	@ExceptionHandler(Exception.class)

@@ -28,5 +28,5 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="${contextPath}/autoescola/instrutor/form">Cadastrar Instrutor</a>
+		<a href="${contextPath}/autoescola/instrutor/form"  class="btn btn-primary">Novo Instrutor</a>
 </tags:pageTemplate>

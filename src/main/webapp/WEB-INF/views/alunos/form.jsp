@@ -10,7 +10,7 @@
 <tags:pageTemplate titulo="Cadastro de Alunos">
 
 
-	<form:form action="${s:mvcUrl('AC#grava').build()}" method="post"
+	<form:form action="${s:mvcUrl('gravar_aluno').build()}" method="post"
 		commandName="aluno" enctype="multipart/form-data"
 		class="form-horizontal form-label-left">
 
@@ -31,7 +31,7 @@
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="nome" id="nome" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="nome" />
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="sobrenome" id="sobrenome" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="sobrenome" />
 			</div>
 		</div>
@@ -65,7 +65,7 @@
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="telefone" id="telefone" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="telefone" />
 			</div>
 		</div>
@@ -120,7 +120,7 @@
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="cpf" id="cpf" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="cpf" />
 			</div>
 		</div>
@@ -131,7 +131,7 @@
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<form:input path="identidade" id="cpf" required="required"
-					class="form-control col-md-7 col-xs-12" />
+					class="form-control col-md-7 col-xs-12" autocomplete="off" />
 				<form:errors path="identidade" />
 			</div>
 		</div>

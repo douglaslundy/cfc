@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,10 +24,17 @@ public class Usuario implements UserDetails {
     private String nome;
     private String senha;
     
+    @OneToOne
+    private Empresa empresa;
+    
     @OneToMany(fetch=FetchType.EAGER)
     private List<Role> roles = new ArrayList<Role>();
 
     // getters and setters
+    
+    public Integer getId() {
+    	return empresa.getId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -38,7 +46,23 @@ public class Usuario implements UserDetails {
         return this.senha;
     }
 
-    @Override
+    public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+
+    public String getNome() {
+		return nome;
+	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	@Override
     public String getUsername() {
         return this.email;
     }
@@ -62,5 +86,23 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+    
+    
 
 }

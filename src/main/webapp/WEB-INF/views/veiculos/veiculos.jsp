@@ -28,5 +28,5 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="${contextPath}/autoescola/veiculos/form">Cadastrar Veiculo</a>
+		<a href="${contextPath}/autoescola/veiculos/form"  class="btn btn-primary">Novo Veículo</a>
 </tags:pageTemplate>
