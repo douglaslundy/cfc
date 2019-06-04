@@ -20,6 +20,10 @@ public class InstrutorDAO {
 	public void gravar(Instrutor instrutor) {
 		manager.persist(instrutor);
 	}
+	
+	public void editar(Instrutor instrutor) {
+		manager.merge(instrutor);		
+	}
 
 	public List<Instrutor> listar(Empresa empresa) {		
 		return manager.createQuery("select i from Instrutor i where i.empresa = :empresa", Instrutor.class).setParameter("empresa", empresa).getResultList();
@@ -32,5 +36,4 @@ public class InstrutorDAO {
 	public Instrutor findPorCpf(String cpf, Empresa empresa) {
 		return manager.createQuery("select distinct(i) from Instrutor i where i.cpf = :cpf and i.empresa = :empresa", Instrutor.class).setParameter("cpf", cpf).setParameter("empresa", empresa).getSingleResult();
 	}
-
 }

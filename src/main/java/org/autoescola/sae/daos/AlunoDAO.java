@@ -20,13 +20,17 @@ public class AlunoDAO {
 	public void gravar(Aluno aluno) {
 		manager.persist(aluno);
 	}
+	
+	public void editar(Aluno aluno) {
+		manager.merge(aluno);		
+	}
 
 	public List<Aluno> listar(Empresa empresa) {		
 		return manager.createQuery("select a from Aluno a where a.empresa = :empresa", Aluno.class).setParameter("empresa", empresa).getResultList();
 	}
 
 	public Aluno find(Integer id, Empresa empresa) {
-        return manager.createQuery("select distinct(a) from Aluno p where a.id = :id and a.empresa = :empresa", Aluno.class).setParameter("id", id).setParameter("empresa", empresa).getSingleResult();
-	}
+        return manager.createQuery("select distinct(a) from Aluno a where a.id = :id and a.empresa = :empresa", Aluno.class).setParameter("id", id).setParameter("empresa", empresa).getSingleResult();
+	}	
 
 }

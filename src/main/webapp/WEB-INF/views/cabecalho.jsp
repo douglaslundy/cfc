@@ -41,10 +41,10 @@
                   </li>
                   <li><a><i class="fa fa-edit"></i> Cadastros <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="${s:mvcUrl('AC#form').build()}">Cadastrar Aluno</a></li>
-                      <li><a href="${s:mvcUrl('IC#form').build()}">Cadastrar Instrutor</a></li>
-                      <li><a href="${s:mvcUrl('VC#form').build()}">Cadastrar Veículo</a></li>
-                      <li><a href="${s:mvcUrl('MC#form').build()}">Movimentação Financeira</a></li>
+                      <li><a href="${s:mvcUrl('AC#alunos').build()}">Alunos</a></li>
+                      <li><a href="${s:mvcUrl('IC#instrutor').build()}">Instrutores</a></li>
+                      <li><a href="${s:mvcUrl('VC#veiculos').build()}">Veículos</a></li>
+                      <li><a href="${s:mvcUrl('MC#movimentacao').build()}">Movimentação Financeira</a></li>
                       <li><a href="${s:mvcUrl('define_instrutor').build()}">Agendar Aula</a></li>
                     </ul>
                   </li>

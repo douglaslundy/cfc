@@ -29,6 +29,9 @@ public class Agenda {
 	@OneToOne()
 	private Instrutor instrutor;
 	
+	@OneToOne()
+	private Aluno aluno;
+	
 	public int getId() {
 		return id;
 	}
@@ -76,6 +79,12 @@ public class Agenda {
 	}
 	public void setEmpresa(Empresa empresa) {
 		this.empresa = empresa;
+	}
+	public Aluno getAluno() {
+		return aluno;
+	}
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
 	}	
 	
 }

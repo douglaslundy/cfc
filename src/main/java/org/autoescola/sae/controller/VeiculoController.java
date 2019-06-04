@@ -30,11 +30,40 @@ public class VeiculoController {
 		return new ModelAndView("veiculos/form");
 	}
 	
+	@RequestMapping("/edit/{id}")
+	public ModelAndView editar(@PathVariable("id") Integer id){
+	    ModelAndView modelAndView = new ModelAndView("veiculos/form");
+	    Veiculo veiculo = veiculoDAO.find(id, usuarioDAO.pegaUsuarioLogado().getEmpresa());		
+		modelAndView.addObject("veiculo", veiculo );
+		return modelAndView;
+	}
+	
+	@RequestMapping("/editDataList")
+	public ModelAndView editDataList(String veiculoDataList){
+		 ModelAndView modelAndView = new ModelAndView("veiculos/form");
+		    Veiculo veiculo = veiculoDAO.find(extraiId(veiculoDataList), usuarioDAO.pegaUsuarioLogado().getEmpresa());		
+			modelAndView.addObject("veiculo", veiculo);
+			return modelAndView;
+	}
+	
+	public Integer extraiId(String str) {
+		String[] array = str.split("-");
+		return  Integer.parseInt(array[0].trim().replace(",", ""));
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ModelAndView grava(Veiculo veiculo, BindingResult result, RedirectAttributes redirectAttributes) {
 		veiculo.setEmpresa(usuarioDAO.pegaUsuarioLogado().getEmpresa());
-		veiculoDAO.gravar(veiculo);
-		redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Veiculo Cadastrado com Sucesso!</div>");
+		
+		if(veiculo.getId() > 0 ) {
+			veiculoDAO.editar(veiculo);
+			redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Informações do Veiculo Atualizadas com Sucesso!</div>");
+		}
+		else {
+			veiculoDAO.gravar(veiculo);
+			redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Veiculo Cadastrado com Sucesso!</div>");
+		}
+		
 		return new ModelAndView("redirect:veiculos");
 	}
 	

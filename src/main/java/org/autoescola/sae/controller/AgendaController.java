@@ -49,7 +49,8 @@ public class AgendaController {
 	
 	@RequestMapping(value="/agenda", name="agenda_form")
 	public ModelAndView form(@RequestParam String instrutor) {
-		Instrutor resultado = PegaInstrutor(extraiCpf(instrutor));
+		System.out.println("Instrutor " + instrutor);
+		Instrutor resultado = findInstrutor(extraiId(instrutor));
 		List<Agenda> eventos = agendaDAO.listarPorInstrutor(usuarioDAO.pegaUsuarioLogado().getEmpresa(), resultado);
 		List<Aluno> alunos = alunoDAO.listar(usuarioDAO.pegaUsuarioLogado().getEmpresa());	
 		ModelAndView modelAndView = new  ModelAndView("agenda/form");
@@ -69,31 +70,52 @@ public class AgendaController {
 		evento.setColor("#4169e1");
 		evento.setStart(TrataDataParaCalendar(start, horarioInicio));
 		evento.setEnd(RetornaHoraTerminoDaAula(TrataDataParaCalendar(start, horarioInicio)));
-		Instrutor instrutor = find(Integer.parseInt(instrutorId.replace(",", "")));
+		Instrutor instrutor = findInstrutor(Integer.parseInt(instrutorId.replace(",", "")));
+		evento.setAluno(findAluno(extraiId(aluno)));
 		evento.setInstrutor(instrutor);
 		evento.setEmpresa(usuarioDAO.pegaUsuarioLogado().getEmpresa());
 		
-		agendaDAO.gravar(evento);
-		redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Aula agendada com Sucesso!</div>");
-		redirectAttributes.addAttribute("instrutor", instrutor.getNome() + '-'+ instrutor.getCpf());
-		return new ModelAndView("redirect:agenda/agenda");
+		if(agendaDAO.verificaSeAgendaEstaLivre(TrataDataParaCalendar(start, horarioInicio), usuarioDAO.pegaUsuarioLogado().getEmpresa(), instrutor).size() == 0) {
+			agendaDAO.gravar(evento);
+			redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Aula agendada com Sucesso!</div>");
+			redirectAttributes.addAttribute("instrutor",instrutor.getId());
+			return new ModelAndView("redirect:agenda/agenda");
+		}
+		else {
+			redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-warning' role='alert'>Erro - Esta aula não pode ser agendada - Horário solicitado já foi ocupado!</div>");
+			redirectAttributes.addAttribute("instrutor",instrutor.getId());
+			return new ModelAndView("redirect:agenda/agenda");
+		}
+		
 	}
 	
 	
-	private Instrutor find(int id) {
+	
+	
+	
+	private Aluno findAluno(Integer id) {
+		return alunoDAO.find(id, usuarioDAO.pegaUsuarioLogado().getEmpresa());
+	}
+
+	private Integer extraiId(String str) {
+		String[] array = str.split("-");
+        return  Integer.parseInt(array[0].trim().replace(",", ""));
+	}
+
+	private Instrutor findInstrutor(int id) {
 		return instrutorDAO.find(id, usuarioDAO.pegaUsuarioLogado().getEmpresa());
 	}
 
 	public String extraiCpf(String str) {
 		String[] array = str.split("-");		
-		return array[1].trim().replace(",", "");
+		return array[2].trim().replace(",", "");
 	}
 	
 	public String extraiNome(String str) {
 		String[] array = str.split("-");		
-		return array[0].trim().replace(",", "");
+		return array[1].trim().replace(",", "");
 	}
-	
+
 	public Instrutor PegaInstrutor(String cpf) {		
 		return instrutorDAO.findPorCpf(cpf, usuarioDAO.pegaUsuarioLogado().getEmpresa());
 	}

@@ -14,6 +14,8 @@
 		commandName="aluno" enctype="multipart/form-data"
 		class="form-horizontal form-label-left">
 
+	<!-- 
+
 		<div class="form-group">
 			<label class="control-label col-md-3 col-sm-3 col-xs-12"
 				for="first-name">Foto <span class="required">*</span>
@@ -24,14 +26,15 @@
 			</div>
 		</div>
 
-
+ -->
+ 		<form:input path="id" id="id" required="required" type="hidden"/>
+ 
 		<div class="form-group">
 			<label class="control-label col-md-3 col-sm-3 col-xs-12" for="nome">Nome
 				<span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="nome" id="nome" required="required"
-					class="form-control col-md-7 col-xs-12" autocomplete="off" />
+				<form:input path="nome" id="nome" required="required" class="form-control col-md-7 col-xs-12" autocomplete="off" placeholder="Nome do aluno" style="text-transform: uppercase;" />
 				<form:errors path="nome" />
 			</div>
 		</div>
@@ -42,8 +45,7 @@
 				for="sobrenome">Sobre Nome <span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="sobrenome" id="sobrenome" required="required"
-					class="form-control col-md-7 col-xs-12" autocomplete="off" />
+				<form:input path="sobrenome" id="sobrenome" required="required" class="form-control col-md-7 col-xs-12" autocomplete="off" placeholder="sobre Nome do aluno" style="text-transform: uppercase;" />
 				<form:errors path="sobrenome" />
 			</div>
 		</div>
@@ -53,19 +55,17 @@
 				for="nascimento">Data Nascimento <span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="nascimento" id="nascimento" required="required"
-					class="form-control col-md-7 col-xs-12" />
+				<form:input path="nascimento" id="nascimento" required="required" onkeyup="mascara( this, mdata);" maxlength="10" class="form-control col-md-7 col-xs-12" placeholder="00/00/0000"/>
 				<form:errors path="nascimento" />
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label class="control-label col-md-3 col-sm-3 col-xs-12"
-				for="telefone">Telefone <span class="required">*</span>
+				for="telefone">Telefone com DDD (xx) <span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="telefone" id="telefone" required="required"
-					class="form-control col-md-7 col-xs-12" autocomplete="off" />
+				<form:input path="telefone" id="telefone" required="required" onkeyup="mascara(this, mtelefone);"  maxlength="14"  class="form-control col-md-7 col-xs-12" autocomplete="off" placeholder="(00)00000-0000"/>
 				<form:errors path="telefone" />
 			</div>
 		</div>
@@ -75,8 +75,7 @@
 				<span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="rua" id="rua" required="required"
-					class="form-control col-md-7 col-xs-12" />
+				<form:input path="rua" id="rua" required="required" class="form-control col-md-7 col-xs-12" placeholder="Nome da rua" style="text-transform: uppercase;"/>
 				<form:errors path="rua" />
 			</div>
 		</div>
@@ -86,8 +85,7 @@
 				<span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="numero" id="numero" required="required"
-					class="form-control col-md-7 col-xs-12" />
+				<form:input path="numero" id="numero" required="required" class="form-control col-md-7 col-xs-12" placeholder="numero" style="text-transform: uppercase;" />
 				<form:errors path="numero" />
 			</div>
 		</div>
@@ -97,8 +95,7 @@
 				<span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="bairro" id="bairro" required="required"
-					class="form-control col-md-7 col-xs-12" />
+				<form:input path="bairro" id="bairro" required="required" class="form-control col-md-7 col-xs-12" placeholder="bairro" style="text-transform: uppercase;" />
 				<form:errors path="bairro" />
 			</div>
 		</div>
@@ -108,8 +105,7 @@
 				<span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="Cidade" id="Cidade" required="required"
-					class="form-control col-md-7 col-xs-12" />
+				<form:input path="Cidade" id="Cidade" required="required" class="form-control col-md-7 col-xs-12" placeholder="cidade" style="text-transform: uppercase;" />
 				<form:errors path="Cidade" />
 			</div>
 		</div>
@@ -119,8 +115,7 @@
 				<span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="cpf" id="cpf" required="required"
-					class="form-control col-md-7 col-xs-12" autocomplete="off" />
+				<form:input path="cpf" id="cpf" required="required" onkeyup="mascara(this, mcpf);"  maxlength="14" class="form-control col-md-7 col-xs-12" autocomplete="off" placeholder="000.000.000-00" />
 				<form:errors path="cpf" />
 			</div>
 		</div>
@@ -130,8 +125,7 @@
 				for="identidade">Identidade <span class="required">*</span>
 			</label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="identidade" id="cpf" required="required"
-					class="form-control col-md-7 col-xs-12" autocomplete="off" />
+				<form:input path="identidade" id="identidade" required="required" class="form-control col-md-7 col-xs-12" autocomplete="off" placeholder="Número do documento de Identidade" style="text-transform: uppercase;" />
 				<form:errors path="identidade" />
 			</div>
 		</div>

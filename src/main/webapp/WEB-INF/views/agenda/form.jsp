@@ -26,8 +26,8 @@
 						
 						$('#visualizar #id').text(event.id);
 						$('#visualizar #title').text(event.title);
-						$('#visualizar #start').text(event.start.format('DD/MM/YYYY HH:mm:ss'));
-						$('#visualizar #end').text(event.end.format('DD/MM/YYYY HH:mm:ss'));
+						$('#visualizar #start').text(event.start.format('DD/M/YYYY HH:mm:ss'));
+						$('#visualizar #end').text(event.end.format('DD/M/YYYY HH:mm:ss'));
 						$('#visualizar').modal('show');
 						return false;
 
@@ -36,8 +36,15 @@
 					selectable: true,
 					selectHelper: true,
 					select: function(start, end){
-						$('#cadastrar #start').val(moment(start).format('DD/MM/YYYY'));
-						$('#cadastrar').modal('show');						
+						
+						var dataCapturada = moment(start).format('DD/M/YYYY');
+												
+						if((new Date().setDate(new Date().getDate() - 1)) <= new Date(dataCapturada.split('/').reverse().join('/'))){
+							$('#cadastrar #start').val(dataCapturada);
+							$('#cadastrar').modal('show');
+						} else {
+							$('#erro').modal('show');
+						}
 					},
 					events: ${eventos.toString()}
 					
@@ -103,7 +110,24 @@
 	</div>	
 							
 	<div id='calendar'></div>
-	
+		
+			<div class="modal fade" id="erro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title text-center">Agendar Aula</h4>
+					</div>
+					
+					<div class="modal-body">
+						<dl class="dl-horizontal">
+							Não é Possível Agendar Aula em Data Passada							
+						</dl>
+					</div>		
+				</div>
+			</div>
+		</div>
+		
 		<div class="modal fade" id="visualizar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -145,7 +169,7 @@
 								<input name="aluno" id="aluno" class="form-control" type="text" list="alunos" autocomplete="off" required="required"/>
 								<datalist id="alunos">
 										<c:forEach var="listValueAlunos" items="${alunos}">
-											<option value="${listValueAlunos.nome} -  ${listValueAlunos.cpf}">
+											<option value="${listValueAlunos.id} - ${listValueAlunos.nome} -  ${listValueAlunos.cpf}">
 									    </c:forEach>
 								</datalist>		
 															

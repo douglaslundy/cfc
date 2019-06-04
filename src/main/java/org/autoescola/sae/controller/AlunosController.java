@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.autoescola.sae.daos.AlunoDAO;
 import org.autoescola.sae.daos.UsuarioDAO;
-import org.autoescola.sae.infra.FileSaver;
 import org.autoescola.sae.models.Aluno;
 import org.autoescola.sae.validation.AlunoValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,8 @@ public class AlunosController {
 	@Autowired
 	private AlunoDAO alunoDAO;
 	
-	@Autowired
-	private FileSaver fileSaver;
+	//@Autowired
+	//private FileSaver fileSaver;
 	
 	@Autowired
 	private UsuarioDAO usuarioDAO;
@@ -45,22 +44,52 @@ public class AlunosController {
 		return new ModelAndView("alunos/form");
 	}
 	
+	@RequestMapping("/edit/{id}")
+	public ModelAndView editar(@PathVariable("id") Integer id){
+	    ModelAndView modelAndView = new ModelAndView("alunos/form");
+	    Aluno aluno = alunoDAO.find(id, usuarioDAO.pegaUsuarioLogado().getEmpresa());		
+		modelAndView.addObject("aluno", aluno );
+		return modelAndView;
+	}
+	
+	@RequestMapping("/editDataList")
+	public ModelAndView editDataList(String alunoDataList){
+	    ModelAndView modelAndView = new ModelAndView("alunos/form");
+	    Aluno aluno = alunoDAO.find(this.extraiId(alunoDataList), usuarioDAO.pegaUsuarioLogado().getEmpresa());
+		modelAndView.addObject("aluno", aluno );
+		return modelAndView;
+	}
+	
+	public Integer extraiId(String str) {
+		String[] array = str.split("-");
+		return  Integer.parseInt(array[0].trim().replace(",", ""));
+	}
+	
 	@RequestMapping(method=RequestMethod.POST, name="gravar_aluno")
 	public ModelAndView grava(MultipartFile foto, @Valid Aluno aluno, BindingResult result, RedirectAttributes redirectAttributes) {
-
+		
+		aluno.setCpf(aluno.getCpf().trim().replace(".", "").replace("-",""));
+		aluno.setTelefone(aluno.getTelefone().trim().replace("(", "").replace(")","").replace("-", ""));
+		
 		if(result.hasErrors()) {
 			return form(aluno);
 		}		
 		
 		//String path = fileSaver.write("fotosfolder", foto);
-		String path = fileSaver.write("resources/imagens", foto);
-		aluno.setFotoPath(path);
+		//String path = fileSaver.write("resources/imagens", foto);
+		//aluno.setFotoPath(path);
 		
 		aluno.setEmpresa(usuarioDAO.pegaUsuarioLogado().getEmpresa());
 		
-		alunoDAO.gravar(aluno);
-		redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Aluno Cadastrado com Sucesso!</div>");
-		return new ModelAndView("redirect:alunos");
+		if(aluno.getId() > 0) {		
+			alunoDAO.editar(aluno);		
+			redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Informações do Aluno Atualizadas com Sucesso!</div>");
+		} else {
+			alunoDAO.gravar(aluno);		
+			redirectAttributes.addFlashAttribute("mensagem", "<div class='alert alert-success' role='alert'>Aluno Cadastrado com Sucesso!</div>");
+		}
+		
+			return new ModelAndView("redirect:alunos");
 	}
 	
 	

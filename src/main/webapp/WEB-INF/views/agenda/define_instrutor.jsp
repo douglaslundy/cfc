@@ -26,7 +26,7 @@
 								<datalist id="instrutores">
 									<c:forEach var="listValueInstrutores" items="${instrutores}">
 										<option
-											value="${listValueInstrutores.nome} -  ${listValueInstrutores.cpf}">
+											value="${listValueInstrutores.id} - ${listValueInstrutores.nome} -  ${listValueInstrutores.cpf}">
 									</c:forEach>
 								</datalist>
 							</div>

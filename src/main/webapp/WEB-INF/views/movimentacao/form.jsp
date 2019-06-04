@@ -17,7 +17,7 @@
 			<label class="control-label col-md-3 col-sm-3 col-xs-12">Descrição<span
 				class="required">*</span></label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="nome" class="form-control  col-md-7 col-xs-12" />
+				<form:input path="nome" class="form-control  col-md-7 col-xs-12"  placeholder="Descrição da transação" style="text-transform: uppercase;"   />
 				<form:errors path="nome" />
 			</div>
 		</div>
@@ -46,8 +46,7 @@
 			<label class="control-label col-md-3 col-sm-3 col-xs-12">Valor<span
 				class="required">*</span></label>
 			<div class="col-md-6 col-sm-6 col-xs-12">
-				<form:input path="valor" class="form-control  col-md-7 col-xs-12" autocomplete="off" />
-				<form:errors path="valor" />
+				<input name="valor" class="form-control  col-md-7 col-xs-12" onkeyup="mascara( this, moeda );" maxlength="15" autocomplete="off"  placeholder="00,00"/>				
 			</div>
 		</div>
 
@@ -56,4 +55,7 @@
 		</div>
 	</form:form>
 
+
+ 
+ 
 </tags:pageTemplate>

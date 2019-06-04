@@ -1,8 +1,10 @@
 package org.autoescola.sae.daos;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 
 import org.autoescola.sae.models.Agenda;
 import org.autoescola.sae.models.Empresa;
@@ -22,14 +24,20 @@ public class AgendaDAO {
 	}
 
 	public List<Agenda> listar(Empresa empresa) {		
-		return manager.createQuery("select i from Agenda i where i.empresa = :empresa", Agenda.class).setParameter("empresa", empresa).getResultList();
+		return manager.createQuery("select m from Agenda m where m.empresa = :empresa", Agenda.class).setParameter("empresa", empresa).getResultList();
 	}
 
 	public Agenda find(Integer id, Empresa empresa) {
-        return manager.createQuery("select distinct(i) from Agenda i where i.id = :id and i.empresa = :empresa", Agenda.class).setParameter("empresa", empresa).setParameter("id", id).getSingleResult();
+        return manager.createQuery("select distinct(m) from Agenda m where m.id = :id and m.empresa = :empresa", Agenda.class).setParameter("empresa", empresa).setParameter("id", id).getSingleResult();
 	}
 
 	public List<Agenda> listarPorInstrutor(Empresa empresa, Instrutor instrutor) {
-		return manager.createQuery("select i from Agenda i where i.empresa = :empresa and i.instrutor = :instrutor ", Agenda.class).setParameter("empresa", empresa).setParameter("instrutor", instrutor).getResultList();
+		return manager.createQuery("select m from Agenda m where m.empresa = :empresa and m.instrutor = :instrutor ", Agenda.class).setParameter("empresa", empresa).setParameter("instrutor", instrutor).getResultList();
 	}
+
+	
+	public List<Agenda> verificaSeAgendaEstaLivre(Calendar data, Empresa empresa, Instrutor instrutor) {
+		return manager.createQuery("select m from Agenda  m where m.empresa = :empresa and m.instrutor = :instrutor and :data between m.start and m.end", Agenda.class).setParameter("data", data, TemporalType.TIMESTAMP).setParameter("empresa", empresa).setParameter("instrutor", instrutor).getResultList();
+	}
+	
 }
